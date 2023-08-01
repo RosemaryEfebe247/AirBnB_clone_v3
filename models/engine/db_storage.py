@@ -21,8 +21,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """Interacts with the MySQL database"""
-
+    """interaacts with the MySQL database"""
     __engine = None
     __session = None
 
@@ -42,7 +41,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """Query on the current database session"""
+        """query on the current database session"""
         new_dict = {}
         for clss in classes:
             if cls is None or cls is classes[clss] or cls is clss:
@@ -50,43 +49,39 @@ class DBStorage:
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
-        return new_dict
+        return (new_dict)
 
     def get(self, cls, id):
-        """Retrieves an object of a class with id"""
+        """retrieves an object of a class with id"""
+        obj = None
         if cls is not None and issubclass(cls, BaseModel):
-            key = "{}.{}".format(cls.__name__, id)
-           # obj = self.__session.query(cls).filter(cls.id == id).first()
-        return self.all(cls).get(key)
+            obj = self.__session.query(cls).filter(cls.id == id).first()
+        return obj
 
     def count(self, cls=None):
-        """Retrieves the number of objects of a class or all (if cls==None)"""
-        if cls is None:
-            return len(self.all())
-        else:
-            return len(self.all(cls))
+        """retrieves the number of objects of a class or all (if cls==None)"""
+        return len(self.all(cls))
 
     def new(self, obj):
-        """Add the object to the current database session"""
+        """add the object to the current database session"""
         self.__session.add(obj)
 
     def save(self):
-        """Commit all changes of the current database session"""
+        """commit all changes of the current database session"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        """Delete from the current database session obj if not None"""
+        """delete from the current database session obj if not None"""
         if obj is not None:
             self.__session.delete(obj)
 
     def reload(self):
-        """Reloads data from the database"""
+        """reloads data from the database"""
         Base.metadata.create_all(self.__engine)
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
-        self.__session = Session()
+        self.__session = Session
 
     def close(self):
-        """Call remove() method on the private session attribute
-        self.__session.remove()"""
-
+        """call remove() method on the private session attribute"""
+        self.__session.remove()
