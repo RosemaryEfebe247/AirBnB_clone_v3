@@ -54,14 +54,17 @@ class DBStorage:
 
     def get(self, cls, id):
         """Retrieves an object of a class with id"""
-        obj = None
         if cls is not None and issubclass(cls, BaseModel):
-            obj = self.__session.query(cls).filter(cls.id == id).first()
-        return obj
+            key = "{}.{}".format(cls.__name__, id)
+           # obj = self.__session.query(cls).filter(cls.id == id).first()
+        return self.all(cls).get(key)
 
     def count(self, cls=None):
         """Retrieves the number of objects of a class or all (if cls==None)"""
-        return len(self.all(cls))
+        if cls is None:
+            return len(self.all())
+        else:
+            return len(self.all(cls))
 
     def new(self, obj):
         """Add the object to the current database session"""
