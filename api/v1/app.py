@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Script create a folder"""
 from flask import Flask, jsonify
 import os
 from models import storage
