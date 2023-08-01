@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from flask import Flask
+from flask import Flask, jsonify
 import os
 
 app = Flask(__name__)
@@ -13,6 +13,16 @@ app.register_blueprint(app_views)
 def tear_down(exception):
     """method to handle teardown"""
     storage.close()
+
+@app.errorhandler(404)
+def not_found_error(error):
+    """
+    A handler for 404 errors
+    """
+    response = {
+        "error": "Not found"
+    }
+    return jsonify(response), 404
 
 if __name__ == "__main__":
     host = os.getenv('HBNB_API_HOST', '0.0.0.0')
