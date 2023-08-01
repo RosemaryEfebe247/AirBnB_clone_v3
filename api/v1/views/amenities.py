@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 '''Contains the amenities view for the API.'''
+
 from flask import jsonify, request
 from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
-
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
