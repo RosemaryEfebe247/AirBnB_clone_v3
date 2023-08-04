@@ -29,13 +29,6 @@ class TestDBStorageDocs(unittest.TestCase):
     def setUpClass(cls):
         """Set up for the doc tests"""
         cls.dbs_f = inspect.getmembers(DBStorage, inspect.isfunction)
-    
-    def test_get(self):
-	"""Function to retrieve an object"""
-	my_state = State(name="Lagos")
-	id = my_state.id
-	my_state.save()
-	self.assertEqual(models.storage.get(State, id), my_state)
 
     def test_pep8_conformance_db_storage(self):
         """Test that models/engine/db_storage.py conforms to PEP8."""
@@ -96,8 +89,8 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
-	"""Function to retrieve an object"""
-	my_state = State(name="Lagos")
-	id = my_state.id
-	my_state.save()
-	self.assertEqual(models.storage.get(State, id), my_state)
+        """fx"""
+        my_state = State(name="Lagos")
+        id = my_state.id
+        my_state.save()
+        self.assertEqual(models.storage.get(State, id), my_state)

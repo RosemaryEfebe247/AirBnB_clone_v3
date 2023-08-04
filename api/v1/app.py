@@ -27,6 +27,12 @@ def not_found_error(error):
     return jsonify(response), 404
 
 
+@app.errorhandler(400)
+def missing_name(error):
+    """Missing name"""
+    return jsonify(error.description), 400
+
+
 if __name__ == "__main__":
     host = os.getenv('HBNB_API_HOST', '0.0.0.0')
     port = os.getenv('HBNB_API_PORT', 5000)
